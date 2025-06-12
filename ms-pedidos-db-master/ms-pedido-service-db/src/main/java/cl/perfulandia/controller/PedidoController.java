@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,16 +35,17 @@ public class PedidoController {
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
-    @PostMapping("/crear-desde-venta/{ventaId}")
-    public ResponseEntity<PedidoDTO> crearPedidoDesdeVenta(@PathVariable(name = "ventaId") Long ventaId) {
-        PedidoDTO pedidoDTO = pedidoService.crearPedidoDesdeVenta(ventaId);
-        return (pedidoDTO != null) ? new ResponseEntity<>(pedidoDTO, HttpStatus.CREATED) :
-                                     new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
 
     @GetMapping
     public ResponseEntity<List<PedidoDTO>> findAllPedidos() {
         // Implementar si es necesario
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
+
+    @PostMapping
+    public ResponseEntity<PedidoDTO> createPedido(@RequestBody PedidoDTO pedidoDTO) {
+    PedidoDTO creado = pedidoService.crearPedido(pedidoDTO);
+    return new ResponseEntity<>(creado, HttpStatus.CREATED);
+}
+
 }
